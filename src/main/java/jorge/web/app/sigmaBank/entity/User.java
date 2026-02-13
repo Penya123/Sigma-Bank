@@ -40,4 +40,7 @@ public class User {
     @ManyToMany
     private List<String> roles;
 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "owner")
+    private Card card;
+
 }

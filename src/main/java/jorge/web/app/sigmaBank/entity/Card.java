@@ -32,5 +32,8 @@ public class Card {
     private String cvv;
     private String pin;
     private String billingAddress;
+    @OneToOne
+    @JoinColumn(name = "owner-id")
+    private User user;
     
 }
