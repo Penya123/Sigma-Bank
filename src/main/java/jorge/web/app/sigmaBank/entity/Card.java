@@ -1,12 +1,16 @@
 package jorge.web.app.sigmaBank.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Card {
     private @Id @GeneratedValue(strategy = GenerationType.UUID)

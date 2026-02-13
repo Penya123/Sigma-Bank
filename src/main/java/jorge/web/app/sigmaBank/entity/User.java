@@ -1,6 +1,10 @@
 package jorge.web.app.sigmaBank.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -8,6 +12,10 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
     private @Id @GeneratedValue(strategy = GenerationType.UUID)
     String udi;
