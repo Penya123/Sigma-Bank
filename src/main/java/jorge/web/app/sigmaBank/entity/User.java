@@ -1,10 +1,7 @@
 package jorge.web.app.sigmaBank.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -13,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Setter
+@Builder
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,11 +34,14 @@ public class User {
     private LocalDateTime createdAt;
     @CreationTimestamp
     private LocalDateTime updatedAt;
-
-    @ManyToMany
     private List<String> roles;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "owner")
+    @OneToOne(mappedBy = "owner")
     private Card card;
 
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Transaction> Transactions;
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Account> accounts;
 }

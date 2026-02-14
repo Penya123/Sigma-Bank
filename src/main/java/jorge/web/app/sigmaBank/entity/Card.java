@@ -1,23 +1,26 @@
 package jorge.web.app.sigmaBank.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
+@Entity
+@Builder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 public class Card {
     private @Id @GeneratedValue(strategy = GenerationType.UUID)
     String cardId;
 
     @Column(nullable = false, unique = true)
-    private Long cardNumber;
+    private long cardNumber;
 
     private long cardHolder;
     private double balance;
@@ -35,5 +38,7 @@ public class Card {
     @OneToOne
     @JoinColumn(name = "owner-id")
     private User user;
-    
+
+    @OneToMany(mappedBy = "card", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Transaction> transaction;
 }
