@@ -37,7 +37,7 @@ public class Card {
     private String billingAddress;
     @OneToOne
     @JoinColumn(name = "owner-id")
-    private User user;
+    private User owner;
 
     @OneToMany(mappedBy = "card", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Transaction> transaction;
