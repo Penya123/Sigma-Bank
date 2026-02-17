@@ -1,4 +1,4 @@
-package jorge.web.app.sigmaBank;
+package jorge.web.app.sigmaBank.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

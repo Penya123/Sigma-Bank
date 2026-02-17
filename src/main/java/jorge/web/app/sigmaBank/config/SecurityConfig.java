@@ -1,7 +1,7 @@
 package jorge.web.app.sigmaBank.config;
 
 
-import jorge.web.app.sigmaBank.JwtAuthenticationFilter;
+import jorge.web.app.sigmaBank.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

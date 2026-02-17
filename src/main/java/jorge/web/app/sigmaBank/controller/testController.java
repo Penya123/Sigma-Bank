@@ -1,4 +1,4 @@
-package jorge.web.app.sigmaBank.Controller;
+package jorge.web.app.sigmaBank.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
