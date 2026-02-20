@@ -4,10 +4,16 @@ import jorge.web.app.sigmaBank.dto.UserDto;
 import jorge.web.app.sigmaBank.entity.User;
 import jorge.web.app.sigmaBank.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -15,10 +21,28 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserDetailsService userDetailsService;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserDetailsService userDetailsService, JwtService jwtService, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userDetailsService = userDetailsService;
+        this.jwtService = jwtService;
+        this.authenticationManager = authenticationManager;
+    }
+
+    public Map<String, Object> authenticateUSer(UserDto userDto){
+        Map<String, Object> authObject = new HashMap<String, Object>();
+        User user = (User) userDetailsService.loadUserByUsername(userDto.getUsername());
+        if (user == null)
+            throw new UsernameNotFoundException("User not found");
+        authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
+        authObject.put("put", "Bearer".concat(jwtService.generateToken(userDto.getUsername())));
+        authObject.put("user",user);
+        return null;
     }
 
     public User registerUser(UserDto userDto){
