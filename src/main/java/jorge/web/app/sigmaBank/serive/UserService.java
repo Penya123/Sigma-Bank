@@ -3,7 +3,6 @@ package jorge.web.app.sigmaBank.serive;
 import jorge.web.app.sigmaBank.dto.UserDto;
 import jorge.web.app.sigmaBank.entity.User;
 import jorge.web.app.sigmaBank.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
