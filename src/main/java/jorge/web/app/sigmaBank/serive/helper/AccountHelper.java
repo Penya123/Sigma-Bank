@@ -16,7 +16,7 @@ public class AccountHelper {
     private final Map<String, String> CURRENCIES = Map.of(
             "USD", "United States Dollar",
             "EUR", "Euro",
-            "BGP", "British Pound",
+            "GBP", "British Pound",
             "JPY", "Japanese Yen",
             "NGN", "Nigerian Naira",
             "INR", "Indian Rupee",
