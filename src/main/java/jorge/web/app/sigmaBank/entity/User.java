@@ -1,5 +1,6 @@
 package jorge.web.app.sigmaBank.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -26,6 +27,7 @@ public class User implements UserDetails {
 
     private String firstName;
     private String lastName;
+    @JsonIgnore
     private String password;
 
     @Column(nullable = false, unique = true)
@@ -43,12 +45,15 @@ public class User implements UserDetails {
     private List<String> roles;
 
     @OneToOne(mappedBy = "owner")
+    @JsonIgnore
     private Card card;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Transaction> Transactions;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Account> accounts;
 
 
