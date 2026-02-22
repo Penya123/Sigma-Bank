@@ -2,7 +2,9 @@ package jorge.web.app.sigmaBank.controller;
 
 
 import jorge.web.app.sigmaBank.dto.AccountDto;
+import jorge.web.app.sigmaBank.dto.TransferDto;
 import jorge.web.app.sigmaBank.entity.Account;
+import jorge.web.app.sigmaBank.entity.Transaction;
 import jorge.web.app.sigmaBank.entity.User;
 import jorge.web.app.sigmaBank.serive.AccountService;
 import lombok.AllArgsConstructor;
@@ -29,5 +31,11 @@ public class AccountController {
     public ResponseEntity<List<Account>> getUserAccounts(Authentication authentication){
         var user = (User) authentication.getPrincipal();
         return ResponseEntity.ok(accountService.getUserAccounts(user.getUdi()));
+    }
+
+    @PostMapping("/transfer")
+    public ResponseEntity<Transaction> transferFunds(@RequestBody TransferDto transferDto, Authentication authentication) throws Exception {
+        var user = (User) authentication.getPrincipal();
+        return ResponseEntity.ok(accountService.transferFunds(transferDto, user));
     }
 }

@@ -2,7 +2,9 @@ package jorge.web.app.sigmaBank.serive;
 
 
 import jorge.web.app.sigmaBank.dto.AccountDto;
+import jorge.web.app.sigmaBank.dto.TransferDto;
 import jorge.web.app.sigmaBank.entity.Account;
+import jorge.web.app.sigmaBank.entity.Transaction;
 import jorge.web.app.sigmaBank.entity.User;
 import jorge.web.app.sigmaBank.repository.AccountRepository;
 import jorge.web.app.sigmaBank.serive.helper.AccountHelper;
@@ -27,7 +29,8 @@ public class AccountService {
 
         var account = Account.builder()
                 .accountNumber(accountNumber)
-                .balance(0)
+                .accountName(user.getFirstName() + " " + user.getLastName())
+                .balance(100)
                 .owner(user)
                 .code(accountDto.getCode())
                 .symbol(accountDto.getSymbol())
@@ -54,5 +57,12 @@ public class AccountService {
 
     public @Nullable List<Account> getUserAccounts(String udi) {
         return accountRepository.findAllByOwnerUdi(udi);
+    }
+
+    public @Nullable Transaction transferFunds(TransferDto transferDto, User user) throws Exception {
+        var senderAccount = accountRepository.findByCodeAndOwnerUdi(transferDto.getCode(), user.getUdi())
+                .orElseThrow(() -> new UnsupportedOperationException("Account of type currency do not exists for user"));
+        var receiverAccount = accountRepository.findByAccountNumber(transferDto.getRecipientAccountNumber()).orElseThrow();
+        return accountHelper.performTransfer(senderAccount, (Account) receiverAccount, transferDto.getAmount(), user);
     }
 }

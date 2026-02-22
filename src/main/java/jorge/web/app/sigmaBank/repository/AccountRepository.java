@@ -5,6 +5,7 @@ import org.jspecify.annotations.Nullable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AccountRepository extends JpaRepository<Account,String> {
 
@@ -13,4 +14,8 @@ public interface AccountRepository extends JpaRepository<Account,String> {
     boolean existsByCodeAndOwnerUdi(String code, String udi);
 
     @Nullable List<Account> findAllByOwnerUdi(String udi);
+
+    Optional<Account> findByCodeAndOwnerUdi(String code, String udi);
+
+    Optional<Account> findByAccountNumber(long recipientAccountNumber);
 }
