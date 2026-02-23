@@ -13,12 +13,14 @@ import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class AccountService {
     private final AccountRepository accountRepository;
     private final AccountHelper accountHelper;
+    private final ExchangeRateService exchangeRateService;
 
     public @Nullable Account createAccount(AccountDto accountDto, User user) throws Exception {
         long accountNumber;
@@ -65,4 +67,9 @@ public class AccountService {
         var receiverAccount = accountRepository.findByAccountNumber(transferDto.getRecipientAccountNumber()).orElseThrow();
         return accountHelper.performTransfer(senderAccount, (Account) receiverAccount, transferDto.getAmount(), user);
     }
+
+    public Map<String, Double> getExchangeRate(){
+        return exchangeRateService.getRates();
+    }
+
 }

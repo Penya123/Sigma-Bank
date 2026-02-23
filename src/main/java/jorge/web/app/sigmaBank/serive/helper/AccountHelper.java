@@ -31,6 +31,7 @@ public class AccountHelper {
     public Transaction performTransfer(Account senderAccount, Account receiverAccount, double amount, User user) throws Exception {
         validateSufficientFunds(senderAccount, (amount * 1.01));
         senderAccount.setBalance(senderAccount.getBalance() - (amount * 1.01));
+        receiverAccount.setBalance(receiverAccount.getBalance() + amount);
         accountRepository.saveAll(List.of(senderAccount, receiverAccount));
         var senderTransaction = Transaction.builder()
                 .account(senderAccount)
@@ -42,7 +43,7 @@ public class AccountHelper {
                 .build();
 
         var recipientTransaction = Transaction.builder()
-                .account(senderAccount)
+                .account(receiverAccount)
                 .status(Status.COMPLETED)
                 .type(Type.DEPOSIT)
                 .amount(amount)
