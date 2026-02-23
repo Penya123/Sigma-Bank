@@ -2,6 +2,7 @@ package jorge.web.app.sigmaBank.serive;
 
 
 import jorge.web.app.sigmaBank.dto.AccountDto;
+import jorge.web.app.sigmaBank.dto.ConvertDto;
 import jorge.web.app.sigmaBank.dto.TransferDto;
 import jorge.web.app.sigmaBank.entity.Account;
 import jorge.web.app.sigmaBank.entity.Transaction;
@@ -70,6 +71,10 @@ public class AccountService {
 
     public Map<String, Double> getExchangeRate(){
         return exchangeRateService.getRates();
+    }
+
+    public Transaction convertCurrency(ConvertDto convertDto, User user) throws  Exception{
+        return accountHelper.convertCurrency(convertDto, user);
     }
 
 }

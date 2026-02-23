@@ -2,6 +2,7 @@ package jorge.web.app.sigmaBank.controller;
 
 
 import jorge.web.app.sigmaBank.dto.AccountDto;
+import jorge.web.app.sigmaBank.dto.ConvertDto;
 import jorge.web.app.sigmaBank.dto.TransferDto;
 import jorge.web.app.sigmaBank.entity.Account;
 import jorge.web.app.sigmaBank.entity.Transaction;
@@ -43,5 +44,12 @@ public class AccountController {
     @GetMapping("/rates")
     public ResponseEntity<Map<String, Double>> getExchangRate(){
         return ResponseEntity.ok(accountService.getExchangeRate());
+    }
+
+
+    @PostMapping("/convert")
+    public ResponseEntity<Transaction> convertCurrency(@RequestBody ConvertDto convertDto, Authentication authentication) throws Exception {
+        var user = (User) authentication.getPrincipal();
+        return ResponseEntity.ok(accountService.convertCurrency(convertDto, user));
     }
 }
