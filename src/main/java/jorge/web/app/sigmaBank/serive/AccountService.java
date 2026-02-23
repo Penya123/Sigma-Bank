@@ -33,7 +33,7 @@ public class AccountService {
         var account = Account.builder()
                 .accountNumber(accountNumber)
                 .accountName(user.getFirstName() + " " + user.getLastName())
-                .balance(100)
+                .balance(1000)
                 .owner(user)
                 .code(accountDto.getCode())
                 .symbol(accountDto.getSymbol())
