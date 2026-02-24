@@ -8,5 +8,5 @@ import java.util.Optional;
 public interface CardRepository extends JpaRepository<Card, String> {
     Optional<Card> findByOwnerUdi(String udi);
 
-    boolean existsByCardNumber(long cardNumber);
+    boolean existsByCardNumber(double cardNumber);
 }
