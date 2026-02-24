@@ -9,6 +9,7 @@ import jorge.web.app.sigmaBank.entity.Transaction;
 import jorge.web.app.sigmaBank.entity.User;
 import jorge.web.app.sigmaBank.repository.AccountRepository;
 import jorge.web.app.sigmaBank.serive.helper.AccountHelper;
+import jorge.web.app.sigmaBank.util.RandomUtil;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class AccountService {
         long accountNumber;
         validateAccountNonExistsForUser(accountDto.getCode(),user.getUdi());
         do{
-            accountNumber = generateRandom(10);
+            accountNumber = new RandomUtil().generateRandom(10);
         }while (accountRepository.existsByAccountNumber(accountNumber));
 
         var account = Account.builder()
@@ -47,15 +48,6 @@ public class AccountService {
         if (accountRepository.existsByCodeAndOwnerUdi(code, udi)) {
             throw new Exception("Account of this type already exists for this user");
         }
-    }
-
-    public Long generateRandom(int length){
-        StringBuilder sb = new StringBuilder(length);
-        for (int i = 0; i < length; i++){
-            int digit = (int) (Math.random() * 10);
-            sb.append(digit);
-        }
-        return Long.parseLong(sb.toString());
     }
 
     public @Nullable List<Account> getUserAccounts(String udi) {

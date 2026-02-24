@@ -22,7 +22,7 @@ public class Card {
     @Column(nullable = false, unique = true)
     private long cardNumber;
 
-    private long cardHolder;
+    private String cardHolder;
     private double balance;
 
     @CreationTimestamp
