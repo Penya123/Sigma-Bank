@@ -28,7 +28,7 @@ public class TransactionService {
 
     public List<Transaction> getTransactionsByAccountId(String accountId, String page, User user) {
         Pageable pageable = PageRequest.of(Integer.parseInt(page), 10, Sort.by("createdAt").ascending());
-        return transactionRepository.findAllByAccountAccountIdAndOwnerUid(accountId, user.getUdi(), pageable).getContent();
+        return transactionRepository.findAllByAccountAccountIdAndOwnerUdi(accountId, user.getUdi(), pageable).getContent();
     }
 
     public Transaction createAccountTransaction(double amount, Type type, double txFee, User user, Account account) {

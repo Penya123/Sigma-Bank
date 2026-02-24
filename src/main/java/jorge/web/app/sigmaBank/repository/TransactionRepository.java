@@ -11,5 +11,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, String
 
     Page<Transaction> findAllByCardCardIdAndOwnerUdi(String cardId, String udi, Pageable pageable);
 
-    Page<Transaction> findAllByAccountAccountIdAndOwnerUid(String accountId, String udi, Pageable pageable);
+    Page<Transaction> findAllByAccountAccountIdAndOwnerUdi(String accountId, String udi, Pageable pageable);
 }
