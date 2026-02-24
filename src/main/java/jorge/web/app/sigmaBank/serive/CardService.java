@@ -56,9 +56,11 @@ public class CardService {
 
         accountHelper.createAccountTransaction(1, Type.WITHDRAW,0.00,user, usdAccount);
         accountHelper.createAccountTransaction(amount - 1, Type.WITHDRAW,0.00,user, usdAccount);
-        createCardTransaction(amount, Type.CREDIT, 0.00,user, card);
+        createCardTransaction(amount, Type.WITHDRAW, 0.00,user, card);
 
-        return cardRepository.save(card);
+        accountRepository.save(usdAccount);
+
+        return card;
     }
 
     private long generateCardNumber() {
@@ -71,6 +73,7 @@ public class CardService {
         accountHelper.createAccountTransaction(amount, Type.WITHDRAW,0.00,user, usdAccount);
         var card = user.getCard();
         card.setBalance(card.getBalance() + amount);
+        cardRepository.save(card);
         return createCardTransaction(amount, Type.CREDIT, 0.00,user, card);
 
     }
@@ -81,6 +84,7 @@ public class CardService {
         accountHelper.createAccountTransaction(amount, Type.DEPOSIT,0.00,user, usdAccount);
         var card = user.getCard();
         card.setBalance(card.getBalance() - amount);
+        cardRepository.save(card);
         return createCardTransaction(amount, Type.DEBIT, 0.00,user, card);
     }
 

@@ -1,5 +1,6 @@
 package jorge.web.app.sigmaBank.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -37,8 +38,10 @@ public class Card {
     private String billingAddress;
     @OneToOne
     @JoinColumn(name = "owner-id")
+    @JsonIgnore
     private User owner;
 
     @OneToMany(mappedBy = "card", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Transaction> transaction;
 }
