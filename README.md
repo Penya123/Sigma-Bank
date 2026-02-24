@@ -25,7 +25,7 @@ Sigma Bank es una aplicación robusta de servicios bancarios desarrollada con **
 
 1. **Clonar el repositorio:**
    ```bash
-   git clone [https://github.com/Penya123/Sigma-Bank.git](https://github.com/Penya123/Sigma-Bank.git)
+   git clone https://github.com/Penya123/Sigma-Bank.git
    cd Sigma-Bank
    
 2. **Configurar appliation.properties**
