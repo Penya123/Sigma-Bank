@@ -1,9 +1,10 @@
 package jorge.web.app.sigmaBank.serive;
 
-import jorge.web.app.sigmaBank.entity.*;
-import jorge.web.app.sigmaBank.repository.AccountRepository;
+import jorge.web.app.sigmaBank.entity.Card;
+import jorge.web.app.sigmaBank.entity.Transaction;
+import jorge.web.app.sigmaBank.entity.Type;
+import jorge.web.app.sigmaBank.entity.User;
 import jorge.web.app.sigmaBank.repository.CardRepository;
-import jorge.web.app.sigmaBank.repository.TransactionRepository;
 import jorge.web.app.sigmaBank.serive.helper.AccountHelper;
 import jorge.web.app.sigmaBank.util.RandomUtil;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +21,7 @@ public class CardService {
 
     private final CardRepository cardRepository;
     private final AccountHelper accountHelper;
-    private final AccountRepository accountRepository;
-    private final TransactionRepository transactionRepository;
+    private final TransactionService transactionService;
 
     public Card getCard(User user) {
         return cardRepository.findByOwnerUdi(user.getUdi()).orElseThrow();
@@ -31,10 +31,10 @@ public class CardService {
         if (amount < 2)
             throw new IllegalArgumentException("Amount should be at least $2");
 
-        if (!accountRepository.existsByCodeAndOwnerUdi("USD", user.getUdi()))
+        if (!accountHelper.existsByCodeAndOwnerUdi("USD", user.getUdi()))
             throw new IllegalArgumentException("USD Account not found for this user so card cannot be created");
 
-        var usdAccount = accountRepository.findByCodeAndOwnerUdi("USD", user.getUdi()).orElseThrow();
+        var usdAccount = accountHelper.findByCodeAndOwnerUdi("USD", user.getUdi()).orElseThrow();
         accountHelper.validateSufficientFunds(usdAccount, amount);
         usdAccount.setBalance(usdAccount.getBalance() - amount);
 
@@ -54,11 +54,11 @@ public class CardService {
 
         card = cardRepository.save(card);
 
-        accountHelper.createAccountTransaction(1, Type.WITHDRAW,0.00,user, usdAccount);
-        accountHelper.createAccountTransaction(amount - 1, Type.WITHDRAW,0.00,user, usdAccount);
-        createCardTransaction(amount, Type.WITHDRAW, 0.00,user, card);
+        transactionService.createAccountTransaction(1, Type.WITHDRAW,0.00,user, usdAccount);
+        transactionService.createAccountTransaction(amount - 1, Type.WITHDRAW,0.00,user, usdAccount);
+        transactionService.createCardTransaction(amount, Type.WITHDRAW, 0.00,user, card);
 
-        accountRepository.save(usdAccount);
+        accountHelper.save(usdAccount);
 
         return card;
     }
@@ -68,36 +68,24 @@ public class CardService {
     }
 
     public Transaction creditCard(double amount, User user) {
-        var usdAccount = accountRepository.findByCodeAndOwnerUdi("USD", user.getUdi()).orElseThrow();
+        var usdAccount = accountHelper.findByCodeAndOwnerUdi("USD", user.getUdi()).orElseThrow();
         usdAccount.setBalance(usdAccount.getBalance() - amount);
-        accountHelper.createAccountTransaction(amount, Type.WITHDRAW,0.00,user, usdAccount);
+        transactionService.createAccountTransaction(amount, Type.WITHDRAW,0.00,user, usdAccount);
         var card = user.getCard();
         card.setBalance(card.getBalance() + amount);
         cardRepository.save(card);
-        return createCardTransaction(amount, Type.CREDIT, 0.00,user, card);
+        return transactionService.createCardTransaction(amount, Type.CREDIT, 0.00,user, card);
 
     }
 
     public Transaction debitCard(double amount, User user) {
-        var usdAccount = accountRepository.findByCodeAndOwnerUdi("USD", user.getUdi()).orElseThrow();
+        var usdAccount = accountHelper.findByCodeAndOwnerUdi("USD", user.getUdi()).orElseThrow();
         usdAccount.setBalance(usdAccount.getBalance() + amount);
-        accountHelper.createAccountTransaction(amount, Type.DEPOSIT,0.00,user, usdAccount);
+        transactionService.createAccountTransaction(amount, Type.DEPOSIT,0.00,user, usdAccount);
         var card = user.getCard();
         card.setBalance(card.getBalance() - amount);
         cardRepository.save(card);
-        return createCardTransaction(amount, Type.DEBIT, 0.00,user, card);
-    }
-
-    private Transaction createCardTransaction(double amount, Type type, double txFee, User user, Card card) {
-        var tx = Transaction.builder()
-                .txFee(txFee)
-                .amount(amount)
-                .type(type)
-                .status(Status.COMPLETED)
-                .owner(user)
-                .card(card)
-                .build();
-        return transactionRepository.save(tx);
+        return transactionService.createCardTransaction(amount, Type.DEBIT, 0.00,user, card);
     }
 
 }

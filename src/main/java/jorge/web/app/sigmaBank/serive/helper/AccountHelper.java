@@ -1,10 +1,13 @@
 package jorge.web.app.sigmaBank.serive.helper;
 
 import jorge.web.app.sigmaBank.dto.ConvertDto;
-import jorge.web.app.sigmaBank.entity.*;
+import jorge.web.app.sigmaBank.entity.Account;
+import jorge.web.app.sigmaBank.entity.Transaction;
+import jorge.web.app.sigmaBank.entity.Type;
+import jorge.web.app.sigmaBank.entity.User;
 import jorge.web.app.sigmaBank.repository.AccountRepository;
-import jorge.web.app.sigmaBank.repository.TransactionRepository;
 import jorge.web.app.sigmaBank.serive.ExchangeRateService;
+import jorge.web.app.sigmaBank.serive.TransactionService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -12,13 +15,14 @@ import org.springframework.stereotype.Component;
 import javax.naming.OperationNotSupportedException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 @Getter
 public class AccountHelper {
     private final AccountRepository accountRepository;
-    private final TransactionRepository transactionRepository;
+    private final TransactionService transactionService;
     private final ExchangeRateService exchangeRateService;
 
     private final Map<String, String> CURRENCIES = Map.of(
@@ -36,11 +40,12 @@ public class AccountHelper {
         senderAccount.setBalance(senderAccount.getBalance() - (amount * 1.01));
         receiverAccount.setBalance(receiverAccount.getBalance() + amount);
         accountRepository.saveAll(List.of(senderAccount, receiverAccount));
-        var senderTransaction = createAccountTransaction(amount, Type.WITHDRAW,amount * 1.01, user, senderAccount);
-        var reciverTransaction = createAccountTransaction(amount, Type.DEPOSIT,0.00, receiverAccount.getOwner(), receiverAccount);
+        var senderTransaction = transactionService.createAccountTransaction(amount, Type.WITHDRAW,amount * 1.01, user, senderAccount);
+        var reciverTransaction = transactionService.createAccountTransaction(amount, Type.DEPOSIT,0.00, receiverAccount.getOwner(), receiverAccount);
 
         return senderTransaction;
     }
+
 
     public void validateAccountOwner(Account account, User user) throws Exception {
         if (!account.getOwner().getUdi().equals(user.getUdi())) throw new Exception("Invalid account owner");
@@ -90,21 +95,22 @@ public class AccountHelper {
 
         accountRepository.saveAll(List.of(fromAccount, toAccount));
 
-        var fromAccountTransaction = createAccountTransaction(convertDto.getAmount(), Type.CONVERSION, convertDto.getAmount() * 0.01, user, fromAccount);
-        var toAccountTransaction = createAccountTransaction(computedAmount, Type.DEPOSIT, convertDto.getAmount() * 0.00, user, toAccount);
+        var fromAccountTransaction = transactionService.createAccountTransaction(convertDto.getAmount(), Type.CONVERSION, convertDto.getAmount() * 0.01, user, fromAccount);
+        var toAccountTransaction = transactionService.createAccountTransaction(computedAmount, Type.DEPOSIT, convertDto.getAmount() * 0.00, user, toAccount);
 
         return fromAccountTransaction;
     }
 
-    public Transaction createAccountTransaction(double amount, Type type, double txFee, User user, Account account) {
-        var tx = Transaction.builder()
-                .txFee(txFee)
-                .amount(amount)
-                .type(type)
-                .status(Status.COMPLETED)
-                .owner(user)
-                .account(account)
-                .build();
-        return transactionRepository.save(tx);
+    public boolean existsByCodeAndOwnerUdi(String code, String udi){
+        return accountRepository.existsByCodeAndOwnerUdi(code, udi);
     }
+
+    public Optional<Account> findByCodeAndOwnerUdi(String code, String uid) {
+        return accountRepository.findByCodeAndOwnerUdi(code, uid);
+    }
+
+    public Account save(Account usdAccount){
+        return accountRepository.save(usdAccount);
+    }
+
 }
