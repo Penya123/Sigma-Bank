@@ -40,7 +40,10 @@ Sigma Bank es una aplicación robusta de servicios bancarios desarrollada con **
 3. **Ejecutar la aplicación**
 
    ```bash
-   mvn spring-boot:run
+   # Windows
+   ./mvnw spring-boot:run
+   # Sistemas *nix
+   mnv spring-boot:run
    
 ---
 
