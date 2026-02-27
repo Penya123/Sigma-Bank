@@ -37,7 +37,7 @@ public class Card {
     private String pin;
     private String billingAddress;
     @OneToOne
-    @JoinColumn(name = "owner-id")
+    @JoinColumn(name = "owner_id")
     @JsonIgnore
     private User owner;
 
