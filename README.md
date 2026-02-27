@@ -47,7 +47,7 @@ Sigma Bank es una aplicación robusta de servicios bancarios desarrollada con **
 ## Guia de pruebas
 
    ### Registrar usuario
-    curl -X POST http://localhost:8080/api/v1/user/register \
+    curl -X POST http://localhost:8070/user/register \
     -H "Content-Type: application/json" \
     -d '{
     "firstName": "Jorge",
@@ -57,14 +57,14 @@ Sigma Bank es una aplicación robusta de servicios bancarios desarrollada con **
     "gender": "MALE"
     }'
   ### Login (Obtener Token JWT)
-    curl -X POST http://localhost:8080/api/v1/user/login \
+    curl -X POST http://localhost:8070/user/login \
     -H "Content-Type: application/json" \
     -d '{
     "username": "jorge@email.com",
     "password": "password123"
     }'
   ### Crear cuenta bancaria
-    curl -X POST http://localhost:8080/api/v1/accounts/create \
+    curl -X POST http://localhost:8070/accounts/create \
     -H "Authorization: Bearer <TU_TOKEN_AQUI>" \
     -H "Content-Type: application/json" \
     -d '{
@@ -74,7 +74,7 @@ Sigma Bank es una aplicación robusta de servicios bancarios desarrollada con **
     }'
   
   ### Transferencia de fondo
-    curl -X POST http://localhost:8080/api/v1/accounts/transfer \
+    curl -X POST http://localhost:8070/accounts/transfer \
     -H "Authorization: Bearer <TU_TOKEN_AQUI>" \
     -H "Content-Type: application/json" \
     -d '{
