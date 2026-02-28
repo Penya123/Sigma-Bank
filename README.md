@@ -5,7 +5,7 @@
 ![Spring Security](https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=Spring-Security&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 
-Sigma Bank es una aplicación robusta de servicios bancarios desarrollada con **Spring Boot 3**. Implementa una arquitectura de seguridad basada en **JWT (JSON Web Tokens)**, permitiendo a los usuarios gestionar cuentas en múltiples divisas, realizar transferencias y gestionar tarjetas virtuales de forma segura.
+Sigma Bank es una aplicación robusta de servicios bancarios desarrollada con **Spring Boot 4**. Implementa una arquitectura de seguridad basada en **JWT (JSON Web Tokens)**, permitiendo a los usuarios gestionar cuentas en múltiples divisas, realizar transferencias y gestionar tarjetas virtuales de forma segura.
 
 ## Características Principales
 
@@ -21,7 +21,14 @@ Sigma Bank es una aplicación robusta de servicios bancarios desarrollada con **
 
 ---
 
-## Configuración del Proyecto
+## Configurarion del Proyecto con docker
+
+1. **Docker:**
+   ```docker
+   docker pull jorgecoder67/sigmabank:latest
+   docker run -p 8070:8070 jorgecoder67/sigmabank:latest
+
+## Configuración del Proyecto clonando
 
 1. **Clonar el repositorio:**
    ```bash
