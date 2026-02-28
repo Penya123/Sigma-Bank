@@ -4,6 +4,7 @@
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)
 ![Spring Security](https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=Spring-Security&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
 Sigma Bank es una aplicación robusta de servicios bancarios desarrollada con **Spring Boot 4**. Implementa una arquitectura de seguridad basada en **JWT (JSON Web Tokens)**, permitiendo a los usuarios gestionar cuentas en múltiples divisas, realizar transferencias y gestionar tarjetas virtuales de forma segura.
 
