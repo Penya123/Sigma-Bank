@@ -21,13 +21,25 @@ Sigma Bank es una aplicación robusta de servicios bancarios desarrollada con **
 
 ---
 
+Tecnologías Utilizadas
+
+- Java 21
+- Spring Boot 4
+- Spring Security 6
+- JWT (JSON Web Tokens)
+- PostgreSQL
+- Spring Data JPA
+- Docker
+- Supabase
+
+---
+
 ## Configurarion del Proyecto con docker
 
 1. **Docker:**
    ```docker
    docker pull jorgecoder67/sigmabank:latest
    docker run -p 8070:8070 jorgecoder67/sigmabank:latest
-
 ## Configuración del Proyecto clonando
 
 1. **Clonar el repositorio:**
@@ -37,8 +49,9 @@ Sigma Bank es una aplicación robusta de servicios bancarios desarrollada con **
    
 2. **Configurar appliation.properties**
 
-   ```code 
-   spring.datasource.url=jdbc:postgresql://localhost:5432/sigma_bank_db
+   ```code
+   # Url en formato jdbc session pooler
+   spring.datasource.url=jdbc:postgresql://aws-0-us-west-2.pooler.supabase.com:6543/postgres?sslmode=require
    spring.datasource.username=tu_usuario
    spring.datasource.password=tu_password
    jwt.secret=clave_jwt
@@ -57,18 +70,18 @@ Sigma Bank es una aplicación robusta de servicios bancarios desarrollada con **
     curl -X POST http://localhost:8070/user/register \
     -H "Content-Type: application/json" \
     -d '{
-    "firstName": "Jorge",
-    "lastName": "User",
-    "username": "jorge@email.com",
-    "password": "password123",
-    "gender": "MALE"
+    "firstName": "Andrea",
+    "lastName": "García",
+    "username": "Andygar@email.com",
+    "password": "123",
+    "gender": "FEMALE"
     }'
   ### Login (Obtener Token JWT)
     curl -X POST http://localhost:8070/user/login \
     -H "Content-Type: application/json" \
     -d '{
-    "username": "jorge@email.com",
-    "password": "password123"
+    "username": "Andygar@email.com",
+    "password": "123"
     }'
   ### Crear cuenta bancaria
     curl -X POST http://localhost:8070/accounts/create \
