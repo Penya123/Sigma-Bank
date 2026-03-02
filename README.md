@@ -59,7 +59,9 @@ Tecnologías Utilizadas
    spring.datasource.password=tu_password
    jwt.secret=clave_jwt
    currency.api.key=clave_currency
-   
+*Nota:*
+    CURRENCY API: https://app.currencyapi.com/dashboard
+    
 3. **Ejecutar la aplicación**
 
    ```bash
