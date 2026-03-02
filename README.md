@@ -60,7 +60,11 @@ Tecnologías Utilizadas
    jwt.secret=clave_jwt
    currency.api.key=clave_currency
 *Nota:*
-    CURRENCY API: https://app.currencyapi.com/dashboard
+
+    # Generar clave jwt
+    openssl rand -hex 32
+
+CURRENCY API: https://app.currencyapi.com/dashboard
     
 3. **Ejecutar la aplicación**
 
